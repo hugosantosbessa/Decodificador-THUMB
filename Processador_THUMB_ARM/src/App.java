@@ -12,15 +12,18 @@
  *************************************************************************************/
 
 public class App {
-	
-	public static void main(String[] args) {		
-		System.out.println(ServicesInstructions.showDecodeOpcodes("input3.txt"));
-		ServicesInstructions.decodeOperationsCPU();
-		System.out.println(ServicesInstructions.showRegisters());
-		System.out.println(ServicesInstructions.showCPSR());
-		System.out.println(ServicesInstructions.showProgramMemory());
-		System.out.println(ServicesInstructions.showDataMemory());
-		System.out.println(ServicesInstructions.showStackMemory());
+
+	public static void main(String[] args) {
+		String file = "arquivos/input/file_5.txt";
+		ThumbInstructions thumbInstructions = new ThumbInstructions(file);
+		System.out.println(thumbInstructions.getStrOpcodes());
+		System.out.println(thumbInstructions.showRegisters());
+		System.out.println(thumbInstructions.showCPSR());
+		System.out.println(thumbInstructions.showProgramMemory());
+		System.out.println(thumbInstructions.showDataMemory());
+		System.out.println(thumbInstructions.showStackMemory());
+		String str = "";
+		
 	}
 	
 }

@@ -24,6 +24,7 @@ public abstract class OperationsCPU {
 	protected static boolean bl = false;
 	protected static boolean attPc = false;
 	protected static boolean modeCPU = false;
+
 	protected byte bits_15_12;
 	protected byte bits_11_8;
 	protected byte bits_7_4;

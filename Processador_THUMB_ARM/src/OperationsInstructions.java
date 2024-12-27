@@ -29,8 +29,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", R" + Lm + ", #" + immed5;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", R" + Lm + ", #" + immed5;
+		else {
 			reg[Ld] = reg[Lm] << immed5;
 			updateCPSR_C_shift(reg[Lm], immed5, shiftType.LSL);
 			updateCPSR_N_Z(reg[Ld]);
@@ -50,8 +50,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSR R" + Ld + ", R" + Lm + ", #" + immed5;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "LSR R" + Ld + ", R" + Lm + ", #" + immed5;
+		else {
 			reg[Ld] = reg[Lm] >>> immed5;	
 			updateCPSR_C_shift(reg[Lm], immed5, shiftType.LSR);
 			updateCPSR_N_Z(reg[Ld]);
@@ -71,8 +71,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "ASR R" + Ld + ", R" + Lm + ", #" + immed5;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ASR R" + Ld + ", R" + Lm + ", #" + immed5;
+		else {
 			reg[Ld] = reg[Lm] >> immed5;	
 			updateCPSR_C_shift(reg[Lm], immed5, shiftType.ASR);
 			updateCPSR_N_Z(reg[Ld]);
@@ -92,8 +92,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ln] + reg[Lm];
 			updateCPSR_ADD_signed(reg[Ln], reg[Lm]);
 		}
@@ -112,8 +112,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "SUB R" + Ld + ", R" + Ln + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "SUB R" + Ld + ", R" + Ln + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ln] - reg[Lm];
 			updateCPSR_SUB_signed(reg[Ln], reg[Lm]);
 		}
@@ -132,8 +132,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed3 = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", #" + immed3;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", #" + immed3;
+		else {
 			reg[Ld] = reg[Ln] + immed3;
 			updateCPSR_ADD_signed(reg[Ln], immed3);
 		}
@@ -152,8 +152,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed3 = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", #" + immed3;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ADD R" + Ld + ", R" + Ln + ", #" + immed3;
+		else {
 			reg[Ld] = reg[Ln] + immed3;
 			updateCPSR_SUB_signed(reg[Ln], immed3);
 		}
@@ -171,8 +171,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MOV_Ld_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", #" + immed8;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", #" + immed8;
+		else {
 			reg[Ld] = immed8;
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -190,8 +190,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMP_Ld_immed8() {
 		int Ln =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "CMP R" + Ln + ", #" + immed8;
-		if(modeCPU) 
+		if(!modeCPU) formattedInstruction = "CMP R" + Ln + ", #" + immed8;
+		else 
 			updateCPSR_SUB_signed(reg[Ln], immed8);
 	}
 
@@ -207,8 +207,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Ld_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", #" + immed8;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", #" + immed8;
+		else {
 			reg[Ld] = reg[Ld] + immed8;
 			updateCPSR_ADD_signed(reg[Ld], immed8);
 		}
@@ -226,8 +226,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void SUB_Ld_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "SUB R" + Ld + ", #" + immed8;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "SUB R" + Ld + ", #" + immed8;
+		else {
 			reg[Ld] = reg[Ld] - immed8;
 			updateCPSR_SUB_signed(reg[Ld], immed8);
 		}
@@ -245,8 +245,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void AND_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "AND R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "AND R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ld] & reg[Lm];
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -264,8 +264,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void EOR_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "EOR R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "EOR R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ld] ^ reg[Lm];
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -283,8 +283,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void LSL_Ld_Ls() {
 		int Ld =  bits_3_0 & 0x7;
 		int Ls = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "LSL R" + Ld + ", R" + Ls;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", R" + Ls;
+		else {
 			int k = (reg[Ls] & 0xFF);
 			if(k > 31)
 				k &= 31;
@@ -305,8 +305,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void LSR_Ld_Ls() {
 		int Ld =  bits_3_0 & 0x7;
 		int Ls = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "LSR R" + Ld + ", R" + Ls;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "LSR R" + Ld + ", R" + Ls;
+		else {
 			int k = (reg[Ls] & 0xFF);
 			if(k > 31)
 				k &= 31;
@@ -327,8 +327,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ASR_Ld_Ls() {
 		int Ld =  bits_3_0 & 0x7;
 		int Ls = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "ASR R" + Ld + ", R" + Ls;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ASR R" + Ld + ", R" + Ls;
+		else {
 			int k = reg[Ls] & 0xFF;
 			if(k >= 0 && k <= 31)
 				reg[Ld] = reg[Ld] >> k;
@@ -351,8 +351,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int C = ((regCPSR >>> 29) & 0x1);
-		formattedInstruction = "ADC R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ADC R" + Ld + ", R" + Lm;
+		else {
 			updateCPSR_ADD_signed(reg[Ld], (reg[Lm]+C));
 			reg[Ld] = reg[Ld] + reg[Lm] + C;
 		}
@@ -371,8 +371,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int C = ((regCPSR >>> 29) & 0x1);
-		formattedInstruction = "SBC R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "SBC R" + Ld + ", R" + Lm;
+		else {
 			updateCPSR_SUB_signed(reg[Ld], (reg[Lm] - (~C)));
 			reg[Ld] = reg[Ld] - reg[Lm] - (~C);
 		}
@@ -390,8 +390,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ROR_Ld_Ls() {
 		int Ld =  bits_3_0 & 0x7;
 		int Ls = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "ROR R" + Ld + ", R" + Ls;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ROR R" + Ld + ", R" + Ls;
+		else {
 			int k = reg[Ls] & 0xFF; // k range
 			if(k >= 32) 
 				k &= 31;
@@ -414,8 +414,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void TST_Ln_Lm() {
 		int Ln =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		if(modeCPU) {
-			formattedInstruction = "TST R" + Ln + ", R" + Lm;
+		if(!modeCPU) formattedInstruction = "TST R" + Ln + ", R" + Lm;
+		else {
 			int result = reg[Ln] & reg[Lm];
 			updateCPSR_N_Z(result);
 		}
@@ -433,8 +433,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void NEG_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "NEG R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "NEG R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = -reg[Lm];
 			updateCPSR_SUB_signed(0, reg[Lm]);
 		}
@@ -452,8 +452,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMP_Ln_Lm() {
 		int Ln =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "CMP R" + Ln + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CMP R" + Ln + ", R" + Lm;
+		else
 			updateCPSR_SUB_signed(reg[Ln], reg[Lm]);
 	}
 
@@ -469,8 +469,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMN_Ln_Lm() {
 		int Ln =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "CMN R" + Ln + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CMN R" + Ln + ", R" + Lm;
+		else
 			updateCPSR_ADD_signed(reg[Ln], reg[Lm]);
 	}
 
@@ -486,8 +486,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ORR_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "ORR R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "ORR R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ld] | reg[Lm];
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -505,8 +505,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MUL_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "MUL R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "MUL R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ld] * reg[Lm];
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -524,8 +524,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void BIC_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "BIC R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "BIC R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = reg[Ld] & (~reg[Lm]);
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -543,8 +543,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MVN_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "MVN R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "MVN R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = ~reg[Lm];
 			updateCPSR_N_Z(reg[Ld]);
 		}
@@ -562,8 +562,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CPY_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "CPY R" + Ld + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CPY R" + Ld + ", R" + Lm;
+		else
 			reg[Ld] = reg[Lm];
 	}
 	
@@ -580,8 +580,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Ld_Hm() {
 		int Ld =  (bits_3_0 & 0x7);
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "ADD R" + Ld + ", R" + Hm;
-		if(modeCPU) 
+		if(!modeCPU) formattedInstruction = "ADD R" + Ld + ", R" + Hm;
+		else 
 			reg[Ld] = reg[Ld] + reg[Hm];
 	}
 
@@ -597,8 +597,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MOV_Ld_Hm() {
 		int Ld =  (bits_3_0 & 0x7);
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "MOV R" + Ld + ", R" + Hm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", R" + Hm;
+		else
 			reg[Ld] = reg[Hm];
 	}
 
@@ -614,8 +614,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Hd_Lm() {
 		int Hd =  (bits_3_0 & 0x7) + 8;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "ADD R" + Hd + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "ADD R" + Hd + ", R" + Lm;
+		else
 			reg[Hd] = reg[Hd] + reg[Lm];
 	}
 
@@ -631,8 +631,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MOV_Hd_Lm() {
 		int Hd =  (bits_3_0 & 0x7) + 8;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "MOV R" + Hd + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Hd + ", R" + Lm;
+		else
 			reg[Hd] = reg[Lm];
 	}
 	
@@ -648,8 +648,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Hd_Hm() {
 		int Hd =  (bits_3_0 & 0x7) + 8;
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "ADD R" + Hd + ", R" + Hm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "ADD R" + Hd + ", R" + Hm;
+		else
 			reg[Hd] = reg[Hd] + reg[Hm];
 	}
 	
@@ -665,8 +665,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void MOV_Hd_Hm() {
 		int Hd =  (bits_3_0 & 0x7) + 8;
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "MOV R" + Hd + ", R" + Hm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Hd + ", R" + Hm;
+		else
 			reg[Hd] = reg[Hm];
 	}
 	
@@ -682,8 +682,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMP_Ln_Hm() {
 		int Ln =  (bits_3_0 & 0x7);
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "CMP R" + Ln + ", R" + Hm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CMP R" + Ln + ", R" + Hm;
+		else
 			updateCPSR_N_Z(reg[Ln] - reg[Hm]);
 	}
 	
@@ -699,8 +699,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMP_Hn_Lm() {
 		int Hn =  (bits_3_0 & 0x7) + 8;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "CMP R" + Hn + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CMP R" + Hn + ", R" + Lm;
+		else
 			updateCPSR_N_Z(reg[Hn] - reg[Lm]);
 	}
 	
@@ -716,8 +716,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void CMP_Hn_Hm() {
 		int Hn =  (bits_3_0 & 0x7) + 8;
 		int Hm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3) + 8;
-		formattedInstruction = "CMP R" + Hn + ", R" + Hm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "CMP R" + Hn + ", R" + Hm;
+		else
 			updateCPSR_N_Z(reg[Hn] - reg[Hm]);
 	}
 
@@ -732,8 +732,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/	
 	protected void BX_Rm() {
 		int Rm =  ((bits_7_4 & 0x7) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "BL R" + Rm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "BL R" + Rm;
+		else {
 			int address = reg[Rm] & 0xfffffffe;
 			updatePc(address);
 			regCPSR = (Rm & 0x1) << 5;
@@ -751,8 +751,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/		
 	protected void BLX_Rm() {
 		int Rm =  ((bits_7_4 & 0x7) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "BLX R" + Rm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "BLX R" + Rm;
+		else {
 			reg[14] = reg[15] + 2;
 			int address = reg[Rm] & 0xfffffffe;
 			updatePc(address);
@@ -772,8 +772,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void LDR_Ld_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "LDR R" + Ld + ", [pc, #" + immed8 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDR R" + Ld + ", [pc, #" + immed8 + "]";
+		else
 			reg[Ld] = loadMemory(reg[15] + immed8*4, dataType.Int, signType.unsigned);
 	}
 
@@ -790,8 +790,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "STR R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "STR R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			storeMemory(reg[Ln] + reg[Lm], reg[Ld], dataType.Int);
 	}
 
@@ -808,8 +808,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "STRH R" + Ld + ", R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)	
+		if(!modeCPU) formattedInstruction = "STRH R" + Ld + ", R" + Ln + ", R" + Lm + "]";
+		else	
 			storeMemory(reg[Ln] + reg[Lm], reg[Ld], dataType.Short);
 	}
 
@@ -826,8 +826,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "STRB R" + Ld + ", R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "STRB R" + Ld + ", R" + Ln + ", R" + Lm + "]";
+		else
 			storeMemory(reg[Ln] + reg[Lm], reg[Ld], dataType.Byte);
 	}
 	
@@ -844,8 +844,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LDRSB R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDRSB R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + reg[Lm], dataType.Byte, signType.signed);
 	}
 
@@ -862,8 +862,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LDR R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDR R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + reg[Lm], dataType.Int, signType.unsigned); 
 	}
 
@@ -880,8 +880,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LDRH R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDRH R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + reg[Lm], dataType.Short, signType.unsigned);
 	}
 
@@ -898,8 +898,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LDRB R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDRB R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + reg[Lm], dataType.Byte, signType.unsigned);
 	}
 	
@@ -916,8 +916,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int Lm = ((bits_11_8 & 0x1) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LDRSH R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LDRSH R" + Ld + ", [R" + Ln + ", R" + Lm + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + reg[Lm], dataType.Short, signType.signed);
 	}
 	
@@ -934,8 +934,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
+		else
 			storeMemory(reg[Ln] + immed5, reg[Ld], dataType.Int);
 	}
 	
@@ -952,8 +952,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + immed5, dataType.Int, signType.unsigned);
 	}
 	
@@ -970,8 +970,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
+		else
 			storeMemory(reg[Ln] + immed5, reg[Ld], dataType.Byte);
 	}
 
@@ -988,8 +988,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Lm + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Lm + ", #" + immed5 + "]";
+		else
 			reg[Ld] = loadMemory(reg[Lm] + immed5, dataType.Byte, signType.unsigned);
 	}
 	
@@ -1006,8 +1006,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
+		else
 			storeMemory(reg[Ln] + immed5, reg[Ld], dataType.Short);
 	}
 
@@ -1024,8 +1024,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 		int Ld =  bits_3_0 & 0x7;
 		int Ln = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
 		int immed5 = ((bits_11_8 & 0x7) << 2) + ((bits_7_4 & 0xC) >>> 2);
-		formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "LSL R" + Ld + ", [R" + Ln + ", #" + immed5 + "]";
+		else
 			reg[Ld] = loadMemory(reg[Ln] + immed5, dataType.Short, signType.unsigned);
 	}	
 	
@@ -1041,8 +1041,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void STR_Ld_Sp_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", [SP, #" + immed8 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", [SP, #" + immed8 + "]";
+		else
 			storeMemory(reg[13] + immed8, reg[Ld], dataType.Int);
 	}
 
@@ -1058,8 +1058,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void LDR_Ld_Sp_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", [SP, #" + immed8 + "]";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", [SP, #" + immed8 + "]";
+		else
 			reg[Ld] = loadMemory(reg[13] + immed8*4, dataType.Int, signType.unsigned);
 	}	
 
@@ -1075,8 +1075,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Ld_pc_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", SP, #" + immed8;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", SP, #" + immed8;
+		else
 			reg[Ld] = reg[15] + immed8;
 	}
 	
@@ -1092,8 +1092,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void ADD_Ld_sp_immed8() {
 		int Ld =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "MOV R" + Ld + ", SP, #" + immed8;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "MOV R" + Ld + ", SP, #" + immed8;
+		else
 			reg[Ld] = reg[13] + immed8;
 	}
 
@@ -1108,8 +1108,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/
 	protected void ADD_sp_immed7() {
 		int immed7 = ((bits_7_4 & 0x7) << 4) + bits_3_0;
-		formattedInstruction = "ADD SP, #" + immed7;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "ADD SP, #" + immed7;
+		else
 			reg[13] = reg[13] + immed7;
 	}
 
@@ -1124,8 +1124,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/
 	protected void SUB_sp_immed7() {
 		int immed7 = ((bits_7_4 & 0x7) << 4) + bits_3_0;
-		formattedInstruction = "SUB SP, #" + immed7;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "SUB SP, #" + immed7;
+		else
 			reg[13] = reg[13] - immed7;
 	}
 	
@@ -1141,8 +1141,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void SXTH_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "SXTH R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "SXTH R" + Ld + ", R" + Lm;
+		else {
 		reg[Ld] = (reg[Lm] & 0xFFFF);
 			if(reg[Lm] < 0)	// Se reg[Lm] for negativo o sinal eh extendido
 				reg[Ld] |= 0xFFFF0000;
@@ -1161,8 +1161,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void SXTB_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "SXTB R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "SXTB R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] = (reg[Lm] & 0xFF);
 			if(reg[Lm] < 0)	// Se reg[Lm] for negativo o sinal eh extendido
 				reg[Ld] |= 0xFFFFFF00;
@@ -1181,8 +1181,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void UXTH_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "UXTH R" + Ld + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "UXTH R" + Ld + ", R" + Lm;
+		else
 			reg[Ld] = reg[Lm] & 0xFFFF;
 	}	
 	
@@ -1198,8 +1198,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void UXTB_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "UXTB R" + Ld + ", R" + Lm;
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction = "UXTB R" + Ld + ", R" + Lm;
+		else
 			reg[Ld] = reg[Lm] & 0xFF;
 	}
 	
@@ -1216,8 +1216,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void REV_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "REV R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "REV R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] =  (reg[Lm] <<  24) & 0xFF000000; 	// Ld[31:24] = Lm[07:00]
 			reg[Ld] |= (reg[Lm] <<   8) & 0x00FF0000;	// Ld[23:16] = Lm[15:08]
 			reg[Ld] |= (reg[Lm] >>>  8) & 0x0000FF00;	// Ld[15:08] = Lm[23:16]
@@ -1238,8 +1238,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void REV16_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "REV16 R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "REV16 R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] =  (reg[Lm] <<  8) & 0xFF000000; 	// Ld[31:24] = Lm[23:16]
 			reg[Ld] |= (reg[Lm] >>> 8) & 0x00FF0000;	// Ld[23:16] = Lm[31:24]
 			reg[Ld] |= (reg[Lm] <<  8) & 0x0000FF00;	// Ld[15:08] = Lm[07:00]
@@ -1259,8 +1259,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void REVSH_Ld_Lm() {
 		int Ld =  bits_3_0 & 0x7;
 		int Lm = ((bits_7_4 & 0x3) << 1) + (bits_3_0 >>> 3);
-		formattedInstruction = "REVSH R" + Ld + ", R" + Lm;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "REVSH R" + Ld + ", R" + Lm;
+		else {
 			reg[Ld] =  (reg[Lm] <<  8) & 0x0000FF00;	// Ld[15:08] = (Lm[07:00])
 			reg[Ld] |= (reg[Lm] >>> 8) & 0x000000FF;	// Ld[07:00] = Lm[15:08]
 			if(reg[Lm] < 0)								// Se reg[Lm] eh negativo, sign-extend 
@@ -1280,22 +1280,22 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void PUSH_R_register_list() {
 		byte immed8 = (byte) ((bits_7_4 << 4) + bits_3_0);
 		boolean lr = (bits_11_8 & 0x1) == 1 ? true : false;
-		formattedInstruction = "PUSH";
+		if(!modeCPU) formattedInstruction = "PUSH";
 		boolean aux = true;		
 		for(int i = 0; i < 8; i++) {
 			if(aux) {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += " {R" + i;
+					if(!modeCPU) formattedInstruction += " {R" + i;
 					aux = false;
 				}
 			}
 			else {
 				if(((immed8 >>> i) & 0x1) == 1)
-					formattedInstruction += ", R" + i;
+					if(!modeCPU) formattedInstruction += ", R" + i;
 			}
 		}
-		formattedInstruction += lr ? ", LR}" : "}";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction += lr ? ", LR}" : "}";
+		else
 			pushStack(immed8, lr);
 	}
 	
@@ -1311,22 +1311,22 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void POP_R_register_list() {
 		byte immed8 = (byte) ((bits_7_4 << 4) + bits_3_0);
 		boolean pc = (bits_11_8 & 0x1) == 1 ? true : false;
-		formattedInstruction = "POP";
+		if(!modeCPU) formattedInstruction = "POP";
 		boolean aux = true;		
 		for(int i = 0; i < 8; i++) {
 			if(aux) {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += " {R" + i;
+					if(!modeCPU) formattedInstruction += " {R" + i;
 					aux = false;
 				}
 			} 
 			else {
 				if(((immed8 >>> i) & 0x1) == 1)
-					formattedInstruction += ", R" + i;
+					if(!modeCPU) formattedInstruction += ", R" + i;
 			}
 		}
-		formattedInstruction += pc ? ", PC}" : "}";
-		if(modeCPU)
+		if(!modeCPU) formattedInstruction += pc ? ", PC}" : "}";
+		else
 			popStack(immed8, pc);
 	}
 	
@@ -1340,8 +1340,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 * Effect CPSR: E = 0
 	 *****************************************************************************************/	
 	protected void SETEND_LE() {
-		formattedInstruction = "SETEND LE";
-		if(modeCPU)        
+		if(!modeCPU) formattedInstruction = "SETEND LE";
+		else        
 			regCPSR &= ~(1 << 9); // BIT 9 -> E
 	}
 
@@ -1355,8 +1355,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 * Effect CPSR: E = 1
 	 *****************************************************************************************/
 	protected void SETEND_BE() {
-		formattedInstruction = "SETEND BE";
-		if(modeCPU)  
+		if(!modeCPU) formattedInstruction = "SETEND BE";
+		else  
 			regCPSR |= 1 << 9; // BIT 9 -> E
 	}
 
@@ -1371,24 +1371,26 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/
 	protected void CPSIE() {
 		int mask = bits_3_0 & 0x7;
-		formattedInstruction = "CPSIE";
-		boolean aux = true;
-		for(int i = 0; i < 3; i++) {
-			if(aux) {
-				if(((mask >>> i) & 0x1) == 1 && i == 0)
-					formattedInstruction += " f";
-				else if(((mask >>> i) & 0x1) == 1 && i == 1)
-					formattedInstruction += " i"; 
-				else if(((mask >>> i) & 0x1) == 1 && i == 2)
-					formattedInstruction += " a"; 
-			} else {
-				if(((mask >>> i) & 0x1) == 1 && i == 1)
-					formattedInstruction += ", i"; 
-				else if(((mask >>> i) & 0x1) == 1 && i == 2)
-					formattedInstruction += ", a"; 
+		if(!modeCPU) {
+			formattedInstruction = "CPSIE";
+			boolean aux = true;
+			for(int i = 0; i < 3; i++) {
+				if(aux) {
+					if(((mask >>> i) & 0x1) == 1 && i == 0)
+						formattedInstruction += " f";
+					else if(((mask >>> i) & 0x1) == 1 && i == 1)
+						formattedInstruction += " i"; 
+					else if(((mask >>> i) & 0x1) == 1 && i == 2)
+						formattedInstruction += " a"; 
+				} else {
+					if(((mask >>> i) & 0x1) == 1 && i == 1)
+						formattedInstruction += ", i"; 
+					else if(((mask >>> i) & 0x1) == 1 && i == 2)
+						formattedInstruction += ", a"; 
+				}
 			}
 		}
-		if(modeCPU)
+		else
 			regCPSR &= ~(mask << 6); // BIT 8 7 6 -> a, i, f
 	}
 
@@ -1403,24 +1405,26 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/
 	protected void CPSID() {
 		int mask = bits_3_0 & 0x7;
-		formattedInstruction = "CPSID";
-		boolean aux = true;
-		for(int i = 0; i < 3; i++) {
-			if(aux) {
-				if(((mask >>> i) & 0x1) == 1 && i == 0)
-					formattedInstruction += " f";
-				else if(((mask >>> i) & 0x1) == 1 && i == 1)
-					formattedInstruction += " i"; 
-				else if(((mask >>> i) & 0x1) == 1 && i == 2)
-					formattedInstruction += " a"; 
-			} else {
-				if(((mask >>> i) & 0x1) == 1 && i == 1)
-					formattedInstruction += ", i"; 
-				else if(((mask >>> i) & 0x1) == 1 && i == 2)
-					formattedInstruction += ", a"; 
+		if(!modeCPU) {
+			formattedInstruction = "CPSID";
+			boolean aux = true;
+			for(int i = 0; i < 3; i++) {
+				if(aux) {
+					if(((mask >>> i) & 0x1) == 1 && i == 0)
+						formattedInstruction += " f";
+					else if(((mask >>> i) & 0x1) == 1 && i == 1)
+						formattedInstruction += " i"; 
+					else if(((mask >>> i) & 0x1) == 1 && i == 2)
+						formattedInstruction += " a"; 
+				} else {
+					if(((mask >>> i) & 0x1) == 1 && i == 1)
+						formattedInstruction += ", i"; 
+					else if(((mask >>> i) & 0x1) == 1 && i == 2)
+						formattedInstruction += ", a"; 
+				}
 			}
 		}
-		if(modeCPU)		
+		else		
 			regCPSR |= mask << 6; // BIT 8 7 6 -> a, i, f 
 	}
 	
@@ -1435,7 +1439,7 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/
 	protected void BKPT_immed8() {
 		int immed8 = (bits_7_4 << 4) + (bits_3_0);
-		formattedInstruction = "BKPT #" + immed8;
+		if(!modeCPU) formattedInstruction = "BKPT #" + immed8;
 	}
 	
 	/*****************************************************************************************
@@ -1450,14 +1454,14 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void STMIA() {
 		int Ln =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + bits_3_0;
-		formattedInstruction = "STMIA R" + Ln + "!";
+		if(!modeCPU) formattedInstruction = "STMIA R" + Ln + "!";
 		boolean aux = true;
 		int address = reg[Ln];
 		for(int i = 0; i < 8; i++) {
 			if(aux) {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += ", {R" + i;
-					if(modeCPU)
+					if(!modeCPU) formattedInstruction += ", {R" + i;
+					else
 						storeMemory(address, reg[i], dataType.Int);
 					address += 4;
 					aux = false;
@@ -1465,14 +1469,14 @@ public abstract class OperationsInstructions extends OperationsCPU {
 			}
 			else {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += ", R" + i;
-					if(modeCPU)
+					if(!modeCPU) formattedInstruction += ", R" + i;
+					else
 						storeMemory(address, reg[i], dataType.Int);
 					address += 4;
 				}
 			}
 		}
-		formattedInstruction += "}";
+		if(!modeCPU) formattedInstruction += "}";
 	}
 	
 	/*****************************************************************************************
@@ -1487,14 +1491,14 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void LDMIA() {
 		int Ln =  bits_11_8 & 0x7;
 		int immed8 = (bits_7_4 << 4) + bits_3_0;
-		formattedInstruction = "LDMIA R" + Ln + "!";
+		if(!modeCPU) formattedInstruction = "LDMIA R" + Ln + "!";
 		boolean aux = true;	
 		int address = reg[Ln];
 		for(int i = 0; i < 8; i++) {
 			if(aux) {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += ", {R" + i;
-					if(modeCPU)
+					if(!modeCPU) formattedInstruction += ", {R" + i;
+					else
 						reg[i] = loadMemory(address, dataType.Int, signType.unsigned);
 					address += 4;
 					aux = false;
@@ -1502,14 +1506,14 @@ public abstract class OperationsInstructions extends OperationsCPU {
 			}
 			else {
 				if(((immed8 >>> i) & 0x1) == 1) {
-					formattedInstruction += ", R" + i;
-					if(modeCPU)
+					if(!modeCPU) formattedInstruction += ", R" + i;
+					else
 						reg[i] = loadMemory(address, dataType.Int, signType.unsigned);
 					address += 4;	
 				}
 			}
 		}
-		formattedInstruction += "}";
+		if(!modeCPU) formattedInstruction += "}";
 	}
 
 	/*****************************************************************************************
@@ -1529,8 +1533,8 @@ public abstract class OperationsInstructions extends OperationsCPU {
 			offset |= 0xFFFFFF00;
 		// instruction_address + 4 + offset * 2
 		int address = contMemory + 4 + offset * 2;
-		formattedInstruction = String.format("B%s #0x%x", decodeCond(cond), address);
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = String.format("B%s #0x%x", decodeCond(cond), address);
+		else {
 			address = reg[15] + 4 + offset * 2;
 			if(checkCondition(cond)) 
 				updatePc(address);
@@ -1550,7 +1554,7 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 *****************************************************************************************/ 
 	protected void SWI() {
 		int immed8 = (bits_7_4 << 4) + bits_3_0;
-		formattedInstruction = "SWI #" + immed8;
+		if(!modeCPU) formattedInstruction = "SWI #" + immed8;
 	}
 
 	/*****************************************************************************************
@@ -1569,9 +1573,9 @@ public abstract class OperationsInstructions extends OperationsCPU {
 			offset |= 0xFFFFF800;
 		// instruction_address + 4 + offset * 2 -> 20 - 20 + 4 -> 4
 		int address = contMemory + (offset * 2) + 4;
-		formattedInstruction = "B #" + String.format("0x%x", address);
 		bl = true;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "B #" + String.format("0x%x", address);
+		else {
 			address = reg[15] + (offset * 2) + 4;
 			updatePc(address);
 		}
@@ -1589,9 +1593,9 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void BLX_offset10() {
 		int offset = ((bits_11_8 & 0x7) << 7) + (bits_7_4 << 3) + (bits_3_0 >>> 1);
 		int address =  offset * 4 + 4 + (0 << 12) & ~3;
-		formattedInstruction = "BLX #" + String.format("0x%x", address);
 		bl = false;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "BLX #" + String.format("0x%x", address);
+		else {
 			reg[14] = reg[15] + 2;	// lr = ret+1
 			updatePc(address);			// pc = <address10>
 			regCPSR &= ~(1 << 5);	//T = 0 (switch to ARM state)
@@ -1611,9 +1615,9 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void BLorBLX() {
 		int offset = ((bits_11_8 & 0x7) << 8) + (bits_7_4 << 4) + bits_3_0;
 		int address = offset * 2 + 4;
-		formattedInstruction = bl ? "BL #" : "BLX #";
-		formattedInstruction += String.format("0x%x", address);
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = bl ? "BL #" : "BLX #";
+		if(!modeCPU) formattedInstruction += String.format("0x%x", address);
+		else {
 			reg[14] = reg[15] + 2;
 			updatePc(address);
 			if(!bl)
@@ -1633,9 +1637,9 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	protected void BL_offset11() {
 		int offset = ((bits_11_8 & 0x7) << 8) + (bits_7_4 << 4) + bits_3_0;
 		int address = offset * 2 + 4;
-		formattedInstruction = "BL #" + String.format("0x%x", address);
 		bl = true;
-		if(modeCPU) {
+		if(!modeCPU) formattedInstruction = "BL #" + String.format("0x%x", address);
+		else {
 			reg[14] = reg[15] + 2;
 			updatePc(address);
 		}
@@ -1648,7 +1652,7 @@ public abstract class OperationsInstructions extends OperationsCPU {
 	 * Opcode: 		1101 1110 <x-8b>
 	 *****************************************************************************************/	
 	protected void UNDEFINED() {
-		formattedInstruction = "UNDEFINED";
+		if(!modeCPU) formattedInstruction = "UNDEFINED";
 	}
 
 }

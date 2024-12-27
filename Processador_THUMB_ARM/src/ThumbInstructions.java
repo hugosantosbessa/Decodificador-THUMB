@@ -15,11 +15,17 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ServicesInstructions extends OperationsInstructions {
+public class ThumbInstructions extends OperationsInstructions {
+	private String strFile;
+	private String strOpcodes;
 	
 	/*****************************************************************************************
 	 * Name: 		decodeOperationsCPU
@@ -28,7 +34,9 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * 				PC register.
 	 * Return:		void	
 	 *****************************************************************************************/
-	public static void decodeOperationsCPU() {
+	public ThumbInstructions(String strF) throws NullPointerException {
+		strFile = strF;
+		decodeOpcodes();
 		modeCPU = true;
 		int rep = 0;
 		while(rep < 10000) {
@@ -36,14 +44,20 @@ public class ServicesInstructions extends OperationsInstructions {
 				new DecodeInstructions(programMemory.get(reg[15]));
 				rep++;
 			} 
-			catch (Exception e) {
-				System.out.println(
-						"At pc="
+			catch (NullPointerException e) {
+				String str = "At pc="
 						+ String.format("0x%08x", reg[15])
-						+ " Instruction fetched from a location outside of a code section (.text or .exceptions).");
-				return;
+						+ " Instruction fetched from a location outside of a code section (.text or .exceptions).";
+				System.out.println(str);
+				break;
+			}
+			catch (Exception e) {
+				System.out.println("Error: " + e.getMessage());
 			}
 		}
+		if(rep == 10000)
+			System.out.println("Limite de operações maxima excedidas!");
+		registerOutput();
 	}
 	
 	/*****************************************************************************************
@@ -52,9 +66,9 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * 				The programMemory is also formed in this function.
 	 * Return:		ArrayList<Integer>	
 	 *****************************************************************************************/
-	private static ArrayList<Integer> decodeFile(String arq) {
+	private ArrayList<Integer> decodeFile() {
 		try (
-                FileReader inputFile = new FileReader(arq);
+                FileReader inputFile = new FileReader(strFile);
                 BufferedReader inputStream = new BufferedReader(inputFile);
             )
         {
@@ -62,13 +76,15 @@ public class ServicesInstructions extends OperationsInstructions {
             String str[] = aux != null ? aux.split(": ") : null;	// Separate the String from the token ": "
             
             /******************************************************************
-             * str[0] = addr; 					-> note used
-             * str[1] =	instruction of 32 bits; -> split into 2 substrings
+             * Example: 
+             * aux = "00: FEDCBA98" 
+             * str[0] = addr = "00"; 							-> note used
+             * str[1] = instruction of 32 bits = "FEDCBA98"; 	-> split into 2 substrings
              * In Thumb mode the instructions are 16 bits long. 
              * Access is done in little-endian mode.
              ******************************************************************/
-            String strL = str[1].substring(4),		// 16 least significant bits		
-            	   strH = str[1].substring(0, 4);	// 16 most significant bits
+            String strL = str[1].substring(4),		// 16 least significant bits	-> "BA98"		
+            	   strH = str[1].substring(0, 4);	// 16 most significant bits		-> "FEDC"
             int cont = 0;							// programMemory counter
             
             /*************************************************************
@@ -105,30 +121,59 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * Description: Decodes a String in hexadecimal format to a hexadecimal Int
 	 * Return:		Int	
 	 *****************************************************************************************/
-	private static int decodeString(String str) {
+	private int decodeString(String str) {
 		return Integer.decode("0x"+str);
 	}
 		
 	/*****************************************************************************************
-	 * Name: 		showDecodeOpcodes
+	 * Name: 		decodeOpcodes
 	 * Description: Show disassembly opcodes
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showDecodeOpcodes(String arq){
+	private void decodeOpcodes( ){
 		StringBuilder str = new StringBuilder();
 		str.append(".thumb\n");
-		ArrayList<Integer> listInstructions = ServicesInstructions.decodeFile(arq);
+		ArrayList<Integer> listInstructions = decodeFile();
 		for (Integer integer : listInstructions) 
 			str.append("\t" + new DecodeInstructions(integer) + "\n");
-		return str.toString(); 
+		strOpcodes = str.toString();
 	}
+	
+	private void registerOutput() {
+		String[] aux = strFile.split("arquivos/input/");
+		String inputFile = aux[1];
+		String outputFile = "arquivos/output/output_" + inputFile;
+		try (	
+				FileWriter clienteFile = new FileWriter(outputFile, false);
+				PrintWriter clienteWriter = new PrintWriter(clienteFile);
+			)
+		{  
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm:ss");
+			StringBuilder sb = new StringBuilder();
+			sb.append("----------------------------------------------------------------------------\n");
+			sb.append("                       Output referring to input " + inputFile + "\n");
+			sb.append("Date: " + dtf.format(LocalDateTime.now()) + "\n");
+			sb.append("----------------------------------------------------------------------------\n");
+			sb.append(getStrOpcodes() + "\n");
+			sb.append(showRegisters() + "\n");
+			sb.append(showCPSR() + "\n");
+			sb.append(showProgramMemory() + "\n");
+			sb.append(showDataMemory() + "\n");
+			sb.append(showStackMemory() + "\n");
+			clienteWriter.print(sb+"\n");
+		}
+		catch(IOException e) {
+			System.out.println("There was a problem writing the file");
+		}
+	}
+	
 	
 	/*****************************************************************************************
 	 * Name: 		showRegisters
 	 * Description: Show the registers
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showRegisters() {
+	public String showRegisters() {
 		String str  = "\n---------------------------------------------------------------------\n";
 			   str +=   "|                        Registers R0-R15                           |";
 			   str += "\n---------------------------------------------------------------------\n";
@@ -150,7 +195,7 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * Description: Show CPSR register
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showCPSR(){
+	public String showCPSR(){
 		String 
 		str  = "\n-------------------------------------------------------------------------------------------------\n";
 		str +=   "|                                         Register CPSR                                         |";
@@ -172,7 +217,7 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * Description: Shows the region of memory used by the program
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showProgramMemory() {
+	public String showProgramMemory() {
 		String 
 		str  = "\n---------------------------------------------------------------------\n";
 		str +=   "|                          Program Memory                           |";
@@ -190,7 +235,7 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * Description: Shows the region of memory used by the data
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showDataMemory() {
+	public String showDataMemory() {
 		String 
 		str  = "\n---------------------------------------------------------------------\n";
 		str +=   "|                           Data Memory                             |";
@@ -208,7 +253,7 @@ public class ServicesInstructions extends OperationsInstructions {
 	 * Description: Shows the region of memory used by the stack
 	 * Return:		String	
 	 *****************************************************************************************/
-	public static String showStackMemory() {
+	public String showStackMemory() {
 		String 
 		str  = "\n---------------------------------------------------------------------\n";
 		str +=   "|                           Stack Memory                            |";
@@ -220,4 +265,9 @@ public class ServicesInstructions extends OperationsInstructions {
 				str += String.format("0x%08x    0x%08x\n", addr.next(), data.next());
 		return str;
 	}
+	
+	public String getStrOpcodes() {
+		return strOpcodes;
+	}
+	
 }
