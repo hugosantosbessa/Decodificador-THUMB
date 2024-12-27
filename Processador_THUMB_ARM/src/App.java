@@ -22,8 +22,6 @@ public class App {
 		System.out.println(thumbInstructions.showProgramMemory());
 		System.out.println(thumbInstructions.showDataMemory());
 		System.out.println(thumbInstructions.showStackMemory());
-		String str = "";
-		
 	}
 	
 }
